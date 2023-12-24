@@ -17,3 +17,27 @@ body {
   /* padding: 2rem; ->Uzrokuje footer da ima razmak od poda */
   text-align: center;
 }
+
+/*ScrollBar*/
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners for the thumb */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners for the thumb */
+}

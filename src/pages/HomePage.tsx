@@ -1,11 +1,13 @@
 import { Divider } from "@nextui-org/react";
 import { FC } from "react";
-import img from "../assets/zoom.png";
-import plusSignImg from "../assets/add-plus-sign.png";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import HomePageJobCard from "../components/HomePageJobCard";
 import { Link } from "react-router-dom";
+import { BiSearchAlt } from "react-icons/bi";
+import IconHolder from "../components/UtilComponents/IconHolder";
 
 const HomePage: FC = () => {
+  const handleSearchButtonHover = () => {};
   return (
     <>
       <div className="flex flex-col place-content-center mb-12 mt-6">
@@ -15,12 +17,19 @@ const HomePage: FC = () => {
             style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
             className="group w-2/6 h-44 rounded-3xl flex items-center justify-center bg-gray-200  hover:bg-theme-blue-500 transition duration-500 ease-in-out"
           >
-            <div className="flex flex-col justify-center items-center">
+            <div
+              className="flex flex-col justify-center items-center"
+              onMouseEnter={handleSearchButtonHover}
+            >
               <h3 className="text-4xl text-black group-hover:text-white">
                 Pretraži poslove
               </h3>
               <div className="mt-3" style={{ width: "80px", height: "auto" }}>
-                <img src={img} alt="my image" />
+                <IconHolder
+                  Icon={BiSearchAlt}
+                  size={90}
+                  className="group-hover:text-white"
+                />
               </div>
             </div>
           </Link>
@@ -32,7 +41,11 @@ const HomePage: FC = () => {
             <div className="flex flex-col justify-center items-center">
               <h3 className="text-4xl group-hover:text-white">Predaj oglas</h3>
               <div className="mt-3" style={{ width: "80px", height: "auto" }}>
-                <img src={plusSignImg} alt="plusSignImg" />
+                <IconHolder
+                  Icon={IoMdAddCircleOutline}
+                  size={90}
+                  className="group-hover:text-white"
+                />
               </div>
             </div>
           </Link>

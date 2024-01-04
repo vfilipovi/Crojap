@@ -44,7 +44,7 @@ const HomePage: FC = () => {
                 <IconHolder
                   Icon={IoMdAddCircleOutline}
                   size={90}
-                  className="group-hover:text-white"
+                  className="group-hover:text-white text-black"
                 />
               </div>
             </div>
@@ -52,7 +52,7 @@ const HomePage: FC = () => {
         </div>
       </div>
       <div className="mt-5 flex flex-col place-items-start">
-        <h2 className="text-6xl mt-12 mb-1">Izdvjeni oglasi</h2>
+        <h2 className="text-6xl mt-12 mb-1">Izdvojeni oglasi</h2>
         <Divider className="mb-12" />
         <Link to="/IT" className="text-3xl text-black">
           IT i Telekomunikacije

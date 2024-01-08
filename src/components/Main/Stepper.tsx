@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 type StepperProps = {
   steps: { title: string }[];
@@ -10,7 +10,7 @@ const Stepper: FC<StepperProps> = ({ steps, activeStep }) => {
     <div className="flex justify-center items-center mt-16">
       <div className="flex justify-between items-center w-3/4">
         {steps.map((step, index) => (
-          <>
+          <Fragment key={"stepper-" + index}>
             <div
               className={`w-12 h-12 rounded-full border-2 flex items-center justify-center ${
                 index + 1 < activeStep
@@ -21,7 +21,7 @@ const Stepper: FC<StepperProps> = ({ steps, activeStep }) => {
               }`}
             >
               {index + 1}
-            </div>{" "}
+            </div>
             {index !== steps.length - 1 && (
               <div
                 className={`flex-1 border-t-3 ${
@@ -29,7 +29,7 @@ const Stepper: FC<StepperProps> = ({ steps, activeStep }) => {
                 }`}
               ></div>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

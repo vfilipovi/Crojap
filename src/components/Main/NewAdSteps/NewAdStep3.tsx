@@ -25,6 +25,7 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
     >
       <div>
         <Textarea
+          isRequired
           className="w-[40%]"
           label="Uvjeti"
           description="Uvjeti za zaposlenje"
@@ -33,6 +34,7 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
       </div>
       <div>
         <Textarea
+          isRequired
           className="w-[40%]"
           label="Obavezne vještine"
           maxLength={1000}
@@ -50,6 +52,7 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
       </div>
       <div>
         <Input
+          isRequired
           className="w-[40%]"
           type="email"
           label="Email"
@@ -58,6 +61,7 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
       </div>
       <div>
         <RadioGroup
+          isRequired
           label="Potrebna vozačka dozvola?"
           value={selected}
           onValueChange={setSelected}
@@ -68,7 +72,7 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
       </div>
       {selected === "da" ? (
         <div>
-          <Select label="Odaberite kategoriju" className="w-[40%]">
+          <Select isRequired label="Odaberite kategoriju" className="w-[40%]">
             {drivingLicenseCat.map((category) => (
               <SelectItem key={category.value} value={category.value}>
                 {category.label}

@@ -1,34 +1,42 @@
 import { Input, Textarea } from "@nextui-org/react";
-
-import { ComponentProps, FC, forwardRef, useRef, useState } from "react";
+import { ComponentProps, FC, forwardRef, memo, useRef } from "react";
 import ReactDatePicker, {
   registerLocale,
   setDefaultLocale,
 } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import hr from "date-fns/locale/hr";
+import { useAdDispatch, useAdSelector } from "../../../store/hooks";
+import {
+  setAdName,
+  setApplyDeadline,
+  setCompanyName,
+  setDateOfAdPublish,
+  setLongDescription,
+  setShortDescription,
+} from "../../../store/ad-slice";
+import { addWeeks } from "date-fns";
 
 const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
   registerLocale("hr", hr);
   setDefaultLocale("hr"); // set default locale to Hrvatski
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [date2, setDate2] = useState<Date | null>(null);
   const inputRef = useRef(null);
   const inputRef2 = useRef(null);
+  const dispatch = useAdDispatch();
+  const adState = useAdSelector((state) => state.ad);
 
   type CustomInputProps = ComponentProps<typeof Input>;
 
-  const CustomInputDeadline = forwardRef<HTMLInputElement, CustomInputProps>(
-    (props, ref) => {
+  const CustomInputDeadline = memo(
+    forwardRef<HTMLInputElement, CustomInputProps>((props, ref) => {
       return <Input {...props} ref={ref} />;
-    }
+    })
   );
-
-  const CustomInputAdActive = forwardRef<HTMLInputElement, CustomInputProps>(
-    (props, ref) => {
+  const CustomInputAdActive = memo(
+    forwardRef<HTMLInputElement, CustomInputProps>((props, ref) => {
       return <Input {...props} ref={ref} />;
-    }
+    })
   );
 
   return (
@@ -38,10 +46,34 @@ const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
       } flex-1 min-h-[40dvh] justify-center flex-col *:w-full *:flex *:justify-center *:p-5`}
     >
       <div>
-        <Input className="w-[40%]" type="text" label="Naziv kompanije" />
+        <Input
+          className="w-[40%]"
+          type="text"
+          label="Naziv kompanije"
+          isRequired
+          onValueChange={(e: string) => {
+            dispatch(setCompanyName(e));
+          }}
+          value={adState.companyName}
+          isInvalid={
+            !adState.validation.companyName && adState.validation.validateStep1
+          }
+        />
       </div>
       <div>
-        <Input className="w-[40%]" type="text" label="Naslov oglasa" />
+        <Input
+          className="w-[40%]"
+          type="text"
+          label="Naslov oglasa"
+          isRequired
+          onValueChange={(e: string) => {
+            dispatch(setAdName(e));
+          }}
+          value={adState.adName}
+          isInvalid={
+            !adState.validation.adName && adState.validation.validateStep1
+          }
+        />
       </div>
       <div className="[&_.react-datepicker-wrapper]:w-[40%] [&_.relative]:!cursor-pointer [&_.react-datepicker-popper]:z-50">
         <ReactDatePicker
@@ -51,17 +83,29 @@ const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
               style={{ cursor: "pointer" }}
               inputRef={inputRef}
               isClearable={true}
+              isRequired
               onClear={() => {
-                setStartDate(null);
+                dispatch(setApplyDeadline({ applyDeadline: null }));
               }}
+              isInvalid={
+                !adState.validation.applyDeadline &&
+                adState.validation.validateStep1
+              }
             />
           }
-          selected={startDate}
-          onChange={(date: Date | null) => setStartDate(date)}
+          selected={adState.applyDeadline}
+          onChange={(date: Date | null) =>
+            dispatch(setApplyDeadline({ applyDeadline: date }))
+          }
           ref={inputRef}
+          minDate={new Date()}
+          dateFormat={"dd-MM-yyyy"}
+          showPopperArrow={false}
+          openToDate={addWeeks(new Date(), 2)}
         />
       </div>
-      <div className="[&_.react-datepicker-wrapper]:w-[40%] [&_.react-datepicker-popper]:z-50">
+
+      <div className="[&_.react-datepicker-wrapper]:w-[40%] [&_.relative]:!cursor-pointer [&_.react-datepicker-popper]:z-50">
         <ReactDatePicker
           customInput={
             <CustomInputAdActive
@@ -69,30 +113,58 @@ const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
               style={{ cursor: "pointer" }}
               inputRef={inputRef2}
               isClearable={true}
+              isRequired
               onClear={() => {
-                setDate2(null);
+                dispatch(setDateOfAdPublish({ dateOfAdPublish: null }));
               }}
+              isInvalid={
+                !adState.validation.dateOfAdPublish &&
+                adState.validation.validateStep1
+              }
             />
           }
-          selected={date2}
-          onChange={(date: Date | null) => setDate2(date)}
+          selected={adState.dateOfAdPublish}
+          onChange={(date: Date | null) =>
+            dispatch(setDateOfAdPublish({ dateOfAdPublish: date }))
+          }
           ref={inputRef2}
+          minDate={new Date()}
+          dateFormat={"dd-MM-yyyy"}
+          showPopperArrow={false}
         />
       </div>
       <div>
         <Textarea
           className="w-[40%]"
           label="Kratki opis oglasa"
-          description="Kratki opis oglasa koji će se prikazivati u kartici"
+          description="Kratki opis oglasa koji će se prikazivati u  minijaturnoj kartici"
           maxLength={120}
+          isRequired
+          onValueChange={(e: string) => {
+            dispatch(setShortDescription(e));
+          }}
+          isInvalid={
+            !adState.validation.shortDescription &&
+            adState.validation.validateStep1
+          }
+          value={adState.shortDescription}
         />
       </div>
       <div>
         <Textarea
           className="w-[40%]"
           label="Opis oglasa"
-          description="Opis oglasa koji će se prikazivati u kad se otvori cijeli oglas"
+          description="Opis oglasa koji će se prikazivati kad se otvori oglas"
           maxLength={1000}
+          isRequired
+          onValueChange={(e: string) => {
+            dispatch(setLongDescription(e));
+          }}
+          isInvalid={
+            !adState.validation.longDescription &&
+            adState.validation.validateStep1
+          }
+          value={adState.longDescription}
         />
       </div>
     </div>

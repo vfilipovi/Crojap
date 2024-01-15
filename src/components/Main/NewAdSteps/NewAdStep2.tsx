@@ -1,16 +1,43 @@
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
+import { useAdDispatch, useAdSelector } from "../../../store/hooks";
+import {
+  setCategory,
+  setEducationLevel,
+  setEmploymentType,
+  setLanguages,
+  setSalary,
+  setYearsOfExperience,
+} from "../../../store/ad-slice";
 
-const animals = [
-  {
-    label: "Srednja stručna sprema",
-    value: "SSS",
-    description: "The second most popular pet in the world",
-  },
+const educationLevels = [
   {
     label: "Nekvalificirani",
     value: "NKV",
-    description: "The most popular pet in the world",
+  },
+  {
+    label: "Kvalificirani",
+    value: "KV",
+  },
+  {
+    label: "Visokokvalificirani",
+    value: "VKV",
+  },
+  {
+    label: "Srednja stručna sprema",
+    value: "SSS",
+  },
+  {
+    label: "Viša stručna sprema",
+    value: "VŠS",
+  },
+  {
+    label: "Magisterij",
+    value: "mag",
+  },
+  {
+    label: "Doktorat",
+    value: "dr",
   },
 ];
 
@@ -38,9 +65,55 @@ const contractTypes = [
     label: "Honorarno",
     value: "honorarno",
   },
+  {
+    label: "Stalni radni odnos",
+    value: "stalno",
+  },
+  {
+    label: "Praksa",
+    value: "praksa",
+  },
+  {
+    label: "Volontiranje",
+    value: "volontiranje",
+  },
+  {
+    label: "Rad na određeno",
+    value: "određeno",
+  },
+];
+
+const categories = [
+  {
+    label: "IT",
+    value: "it",
+  },
+  {
+    label: "Turizam i ugostiteljstvo",
+    value: "turizam-gostiteljstvo",
+  },
+  {
+    label: "Financije, računvodstvo",
+    value: "financije-racunovodstvo",
+  },
+  {
+    label: "Marketing",
+    value: "marketing",
+  },
+  {
+    label: "Prodaja",
+    value: "prodaja",
+  },
+  {
+    label: "Sigurnost i zaštita",
+    value: "sigurnost-zastita",
+  },
 ];
 
 const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
+  const dispatch = useAdDispatch();
+  const adState = useAdSelector((state) => state.ad);
+
   return (
     <div
       className={`${
@@ -49,29 +122,77 @@ const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
     >
       <div>
         <Select
-          items={animals}
+          isRequired
+          label="Odaberite kategoriju"
+          className="w-[40%]"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            dispatch(setCategory(e.target.value));
+          }}
+          value={[adState.category]}
+          isInvalid={
+            !adState.validation.category && adState.validation.validateStep2
+          }
+        >
+          {categories.map((category) => (
+            <SelectItem key={category.value} value={category.value}>
+              {category.label}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+      <div>
+        <Select
+          isRequired
+          items={educationLevels}
           label="Odaberite stručnu spremu"
           className="w-[40%]"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            dispatch(setEducationLevel(e.target.value));
+          }}
+          value={[adState.educationLevel]}
+          isInvalid={
+            !adState.validation.educationLevel &&
+            adState.validation.validateStep2
+          }
         >
-          {(animal) => (
-            <SelectItem key={animal.value}>{animal.label}</SelectItem>
-          )}
+          {educationLevels.map((educationLevel) => (
+            <SelectItem key={educationLevel.value}>
+              {educationLevel.label}
+            </SelectItem>
+          ))}
         </Select>
       </div>
       <div>
         <Input
+          isRequired
           className="w-[40%]"
           type="number"
           label="Potrebnih godina iskustva"
           min={0}
           max={40}
+          onValueChange={(e: string) => {
+            dispatch(setYearsOfExperience(+e));
+          }}
+          value={adState.yearsOfExperience?.toString()}
+          isInvalid={
+            !adState.validation.yearsOfExperience &&
+            adState.validation.validateStep2
+          }
         />
       </div>
       <div>
         <Select
+          isRequired
           label="Odaberite jezike"
           selectionMode="multiple"
           className="w-[40%]"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            dispatch(setLanguages(e.target.value));
+          }}
+          value={adState.languages?.split(",")}
+          isInvalid={
+            !adState.validation.languages && adState.validation.validateStep2
+          }
         >
           {languages.map((language) => (
             <SelectItem key={language.value} value={language.value}>
@@ -82,9 +203,19 @@ const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
       </div>
       <div>
         <Select
+          isRequired
           label="Odaberite tip/ove ugovora"
           selectionMode="multiple"
           className="w-[40%]"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            dispatch(setEmploymentType(e.target.value));
+          }}
+          // selectedKeys={}
+          value={adState.employmentType?.split(",")}
+          isInvalid={
+            !adState.validation.employmentType &&
+            adState.validation.validateStep2
+          }
         >
           {contractTypes.map((contractType) => (
             <SelectItem key={contractType.value} value={contractType.value}>
@@ -96,11 +227,16 @@ const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
       <div>
         <Input
           className="w-[40%]"
-          type="number"
-          label="Plaća u €"
-          min={0}
-          max={100000}
-          description={"0 označava sakriveni iznos plaće"}
+          type="text"
+          label="Plaća (bruto 1)"
+          maxLength={9}
+          onValueChange={(e: string) => {
+            dispatch(setSalary(e));
+          }}
+          value={adState.salary}
+          isInvalid={
+            !adState.validation.salary && adState.validation.validateStep2
+          }
         />
       </div>
     </div>

@@ -1,5 +1,16 @@
-import { Button, Spacer } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Spacer,
+} from "@nextui-org/react";
 import { FC, useState } from "react";
+import { useAdDispatch, useAdSelector } from "../../store/hooks";
+import { setValidateStep1, setValidateStep2 } from "../../store/ad-slice";
+import ModalWrapper from "../UtilComponents/ModalWrapper";
 
 type NewAdButtonsProps = {
   activeStep: number;
@@ -12,13 +23,43 @@ const NewAdButtons: FC<NewAdButtonsProps> = ({
   steps,
   setActiveStep,
 }) => {
+  const dispatch = useAdDispatch();
+  const adStateValidation = useAdSelector((state) => state.ad.validation);
+
   const [btnIsLoading, setBtnIsLoading] = useState(false);
 
   const handleNextBtn = () => {
     if (activeStep === steps.length) {
       //network req
     } else {
-      setActiveStep(activeStep + 1);
+      if (activeStep === 1) {
+        dispatch(setValidateStep1(true));
+        if (
+          adStateValidation.adName &&
+          adStateValidation.companyName &&
+          adStateValidation.applyDeadline &&
+          adStateValidation.dateOfAdPublish &&
+          adStateValidation.shortDescription &&
+          adStateValidation.longDescription
+        ) {
+          setActiveStep(activeStep + 1);
+        } else {
+          //Validation check
+        }
+      }
+      if (activeStep === 2) {
+        dispatch(setValidateStep2(true));
+        if (
+          adStateValidation.category &&
+          adStateValidation.educationLevel &&
+          adStateValidation.yearsOfExperience &&
+          adStateValidation.languages &&
+          adStateValidation.employmentType &&
+          adStateValidation.salary
+        ) {
+          setActiveStep(activeStep + 1);
+        }
+      }
     }
   };
 
@@ -37,6 +78,8 @@ const NewAdButtons: FC<NewAdButtonsProps> = ({
       <Button isLoading={btnIsLoading} onClick={handleNextBtn}>
         {activeStep === steps.length ? "Predaj oglas" : "Sljedeći korak"}
       </Button>
+      //Napravi da se otvori modal, kad je validacija neuspješna
+      <ModalWrapper />
     </div>
   );
 };

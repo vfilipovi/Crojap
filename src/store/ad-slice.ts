@@ -5,8 +5,10 @@ import {
   setCategoryReducer,
   setCompanyNameReducer,
   setConditionsReducer,
+  setCountyReducer,
   setDateOfAdPublishReducer,
   setDrivingLicenseReducer,
+  setDrivingLicenseValidationReducer,
   setEducationLevelReducer,
   setEmailReducer,
   setEmploymentTypeReducer,
@@ -19,6 +21,7 @@ import {
   setValidateStep1Reducer,
   setValidateStep2Reducer,
   setValidateStep3Reducer,
+  setWhatEmployerOffersReducer,
   setYearsOfExperienceReducer,
 } from "./ad-reducers";
 
@@ -26,11 +29,12 @@ export type AdType = {
   id: string;
   companyName: string;
   adName: string;
-  category: string;
-  applyDeadline: Date | null;
+  applyDeadline: string | null;
   dateOfAdPublish: Date | null;
   shortDescription: string;
   longDescription: string;
+  category: string;
+  county: string;
   educationLevel: string;
   yearsOfExperience: number | null;
   languages: string | null;
@@ -46,11 +50,12 @@ export type AdType = {
     id: boolean;
     companyName: boolean;
     adName: boolean;
-    category: boolean;
     applyDeadline: boolean;
     dateOfAdPublish: boolean;
     shortDescription: boolean;
     longDescription: boolean;
+    category: boolean;
+    county: boolean;
     educationLevel: boolean;
     yearsOfExperience: boolean;
     languages: boolean;
@@ -72,11 +77,12 @@ const initialState: AdType = {
   id: "",
   companyName: "Company d.o.o.",
   adName: "Prodavač M/Ž",
-  applyDeadline: new Date(), // inace ide null, a na string ""
+  applyDeadline: null, // inace ide null, a na string ""
   dateOfAdPublish: new Date(),
   shortDescription: "kratki opis",
   longDescription: "dugi opis",
   category: "",
+  county: "",
   educationLevel: "",
   yearsOfExperience: null,
   languages: null,
@@ -97,11 +103,12 @@ const initialState: AdType = {
     shortDescription: true,
     longDescription: true, //osim id, svi idu na false default
     category: false,
+    county: false,
     educationLevel: false,
     yearsOfExperience: false,
     languages: false,
     employmentType: false,
-    drivingLicense: false,
+    drivingLicense: true,
     salary: true,
     conditions: false,
     requiredSkills: false,
@@ -120,19 +127,22 @@ export const adSlice = createSlice({
   reducers: {
     setCompanyName: setCompanyNameReducer,
     setAdName: setAdNameReducer,
-    setCategory: setCategoryReducer,
     setApplyDeadline: setApplyDeadlineReducer,
     setDateOfAdPublish: setDateOfAdPublishReducer,
     setShortDescription: setShortDescriptionReducer,
     setLongDescription: setLongDescriptionReducer,
+    setCategory: setCategoryReducer,
+    setCounty: setCountyReducer,
     setEducationLevel: setEducationLevelReducer,
     setYearsOfExperience: setYearsOfExperienceReducer,
     setLanguages: setLanguagesReducer,
     setEmploymentType: setEmploymentTypeReducer,
-    setDrivingLicense: setDrivingLicenseReducer,
     setSalary: setSalaryReducer,
     setConditions: setConditionsReducer,
+    setWhatEmployerOffers: setWhatEmployerOffersReducer,
     setRequiredSkills: setRequiredSkillsReducer,
+    setDrivingLicense: setDrivingLicenseReducer,
+    setDrivingLicenseValidation: setDrivingLicenseValidationReducer,
     setRemark: setRemarkReducer,
     setEmail: setEmailReducer,
 
@@ -146,21 +156,24 @@ export const adSlice = createSlice({
 export const {
   setCompanyName,
   setAdName,
-  setCategory,
   setApplyDeadline,
   setDateOfAdPublish,
   setShortDescription,
   setLongDescription,
+  setCategory,
+  setCounty,
   setEducationLevel,
   setYearsOfExperience,
   setLanguages,
   setEmploymentType,
-  setDrivingLicense,
   setSalary,
   setConditions,
   setRequiredSkills,
+  setWhatEmployerOffers,
   setRemark,
   setEmail,
+  setDrivingLicense,
+  setDrivingLicenseValidation,
   setValidateStep1,
   setValidateStep2,
   setValidateStep3,

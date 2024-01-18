@@ -18,20 +18,12 @@ export const setAdNameReducer = (
   state.validation.adName = !!action.payload;
 };
 
-export const setCategoryReducer = (
-  state: AdType,
-  action: PayloadAction<string>
-) => {
-  state.category = action.payload || "";
-  state.validation.category = !!action.payload;
-};
-
 export const setApplyDeadlineReducer = (
   state: AdType,
-  action: PayloadAction<{ applyDeadline: Date | null }>
+  action: PayloadAction<string | null>
 ) => {
-  state.applyDeadline = action.payload.applyDeadline || null;
-  state.validation.applyDeadline = !!action.payload.applyDeadline;
+  state.applyDeadline = action.payload || null;
+  state.validation.applyDeadline = !!action.payload;
 };
 
 export const setDateOfAdPublishReducer = (
@@ -56,6 +48,22 @@ export const setLongDescriptionReducer = (
 ) => {
   state.longDescription = action.payload || "";
   state.validation.longDescription = !!action.payload;
+};
+
+export const setCategoryReducer = (
+  state: AdType,
+  action: PayloadAction<string>
+) => {
+  state.category = action.payload || "";
+  state.validation.category = !!action.payload;
+};
+
+export const setCountyReducer = (
+  state: AdType,
+  action: PayloadAction<string>
+) => {
+  state.county = action.payload || "";
+  state.validation.county = !!action.payload;
 };
 
 export const setEducationLevelReducer = (
@@ -90,14 +98,6 @@ export const setEmploymentTypeReducer = (
   state.validation.employmentType = !!action.payload;
 };
 
-export const setDrivingLicenseReducer = (
-  state: AdType,
-  action: PayloadAction<{ drivingLicense: string }>
-) => {
-  state.drivingLicense = action.payload.drivingLicense || "";
-  state.validation.drivingLicense = !!action.payload.drivingLicense;
-};
-
 export const setSalaryReducer = (
   state: AdType,
   action: PayloadAction<string>
@@ -118,42 +118,57 @@ export const setSalaryReducer = (
 
 export const setConditionsReducer = (
   state: AdType,
-  action: PayloadAction<{ conditions: string }>
+  action: PayloadAction<string>
 ) => {
-  state.conditions = action.payload.conditions || "";
-  state.validation.conditions = !!action.payload.conditions;
+  state.conditions = action.payload || "";
+  state.validation.conditions = !!action.payload;
 };
 
 export const setRequiredSkillsReducer = (
   state: AdType,
-  action: PayloadAction<{ requiredSkills: string }>
+  action: PayloadAction<string>
 ) => {
-  state.requiredSkills = action.payload.requiredSkills || "";
-  state.validation.requiredSkills = !!action.payload.requiredSkills;
+  state.requiredSkills = action.payload || "";
+  state.validation.requiredSkills = !!action.payload;
 };
 
 export const setWhatEmployerOffersReducer = (
   state: AdType,
-  action: PayloadAction<{ whatEmployerOffers: string }>
+  action: PayloadAction<string>
 ) => {
-  state.whatEmployerOffers = action.payload.whatEmployerOffers || "";
-  state.validation.whatEmployerOffers = !!action.payload.whatEmployerOffers;
+  state.whatEmployerOffers = action.payload || "";
+  state.validation.whatEmployerOffers = !!action.payload;
 };
 
 export const setRemarkReducer = (
   state: AdType,
-  action: PayloadAction<{ remark: string }>
+  action: PayloadAction<string>
 ) => {
-  state.remark = action.payload.remark || "";
-  state.validation.remark = !!action.payload.remark;
+  state.remark = action.payload || "";
+  state.validation.remark = !!action.payload;
 };
 
 export const setEmailReducer = (
   state: AdType,
-  action: PayloadAction<{ email: string }>
+  action: PayloadAction<string>
 ) => {
-  state.email = action.payload.email || "";
-  state.validation.email = !!action.payload.email;
+  state.email = action.payload || "";
+  state.validation.email = !!action.payload;
+};
+
+export const setDrivingLicenseReducer = (
+  state: AdType,
+  action: PayloadAction<string>
+) => {
+  state.drivingLicense = action.payload || "";
+  state.validation.drivingLicense = !!action.payload;
+};
+
+export const setDrivingLicenseValidationReducer = (
+  state: AdType,
+  action: PayloadAction<boolean>
+) => {
+  state.validation.drivingLicense = action.payload;
 };
 
 export const setValidateStep1Reducer = (

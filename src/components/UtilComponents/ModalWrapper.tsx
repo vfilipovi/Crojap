@@ -7,32 +7,44 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { FC } from "react";
 
-const ModalWrapper = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+type modelWrapperProps = {
+  title: string;
+  content: string;
+  openModal: boolean;
+  closeBtnText?: string;
+  onModalClose: (setIsModalActive: boolean) => void;
+};
 
+const ModalWrapper: FC<modelWrapperProps> = ({
+  title,
+  content,
+  openModal,
+  closeBtnText = "Zatvori",
+  onModalClose,
+}) => {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      isOpen={openModal}
+      onClose={() => {
+        onModalClose(false);
+      }}
+    >
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Modal Title
-            </ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
             <ModalBody>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
-                amet hendrerit risus, sed porttitor quam.
-              </p>
+              <p>{content}</p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
-                Close
+                {closeBtnText}
               </Button>
-              <Button color="primary" onPress={onClose}>
+              {/* <Button color="primary" onPress={onClose}>
                 Action
-              </Button>
+              </Button> */}
             </ModalFooter>
           </>
         )}

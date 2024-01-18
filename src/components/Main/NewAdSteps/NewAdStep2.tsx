@@ -3,12 +3,44 @@ import { ChangeEvent, FC } from "react";
 import { useAdDispatch, useAdSelector } from "../../../store/hooks";
 import {
   setCategory,
+  setCounty,
   setEducationLevel,
   setEmploymentType,
   setLanguages,
   setSalary,
   setYearsOfExperience,
 } from "../../../store/ad-slice";
+
+const counties = [
+  {
+    label: "Grad Zagreb",
+    value: "zagreb",
+  },
+  {
+    label: "Zagrebačka",
+    value: "zagrebacka",
+  },
+  {
+    label: "Istarska",
+    value: "istarska",
+  },
+  {
+    label: "Karlovačka",
+    value: "karlovacka",
+  },
+  {
+    label: "Splitsko-dalmatinska",
+    value: "splitskodalmatinska",
+  },
+  {
+    label: "Varaždinska",
+    value: "varazdinska",
+  },
+  {
+    label: "Požeško-slavonska",
+    value: "pozeskoslavonska",
+  },
+];
 
 const educationLevels = [
   {
@@ -140,6 +172,27 @@ const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
           ))}
         </Select>
       </div>
+      <div>
+        <Select
+          isRequired
+          label="Odaberite županiju"
+          className="w-[40%]"
+          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+            dispatch(setCounty(e.target.value));
+          }}
+          value={[adState.county]}
+          isInvalid={
+            !adState.validation.county && adState.validation.validateStep2
+          }
+        >
+          {counties.map((county) => (
+            <SelectItem key={county.value} value={county.value}>
+              {county.label}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+
       <div>
         <Select
           isRequired

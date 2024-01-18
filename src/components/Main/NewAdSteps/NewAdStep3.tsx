@@ -6,16 +6,32 @@ import {
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
+import { useAdDispatch, useAdSelector } from "../../../store/hooks";
+import {
+  setConditions,
+  setDrivingLicense,
+  setDrivingLicenseValidation,
+  setEmail,
+  setRequiredSkills,
+  setWhatEmployerOffers,
+} from "../../../store/ad-slice";
 
 const drivingLicenseCat = [
-  { label: "A", value: "a" },
   { label: "B", value: "b" },
+  { label: "BE", value: "be" },
   { label: "C", value: "c" },
+  { label: "CE", value: "ce" },
+  { label: "D", value: "d" },
+  { label: "F", value: "f" },
+  { label: "H", value: "h" },
 ];
 
 const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
-  const [selected, setSelected] = useState("ne");
+  const [isDrivingLicenseRequired, setIsDrivingLicenseRequired] =
+    useState("ne");
+  const dispatch = useAdDispatch();
+  const adState = useAdSelector((state) => state.ad);
 
   return (
     <div
@@ -30,6 +46,13 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
           label="Uvjeti"
           description="Uvjeti za zaposlenje"
           maxLength={1000}
+          onValueChange={(e: string) => {
+            dispatch(setConditions(e));
+          }}
+          value={adState.conditions}
+          isInvalid={
+            !adState.validation.conditions && adState.validation.validateStep3
+          }
         />
       </div>
       <div>
@@ -38,6 +61,14 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
           className="w-[40%]"
           label="Obavezne vještine"
           maxLength={1000}
+          onValueChange={(e: string) => {
+            dispatch(setRequiredSkills(e));
+          }}
+          value={adState.requiredSkills}
+          isInvalid={
+            !adState.validation.requiredSkills &&
+            adState.validation.validateStep3
+          }
         />
       </div>
       <div>
@@ -45,6 +76,14 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
           className="w-[40%]"
           label="Što nudimo kao poslodavac"
           maxLength={2000}
+          onValueChange={(e: string) => {
+            dispatch(setWhatEmployerOffers(e));
+          }}
+          value={adState.whatEmployerOffers}
+          isInvalid={
+            !adState.validation.whatEmployerOffers &&
+            adState.validation.validateStep3
+          }
         />
       </div>
       <div>
@@ -57,22 +96,49 @@ const NewAdStep3: FC<{ activeStep: number }> = ({ activeStep }) => {
           type="email"
           label="Email"
           description="Email adresa na koju kandidati šalju prijave"
+          onValueChange={(e: string) => {
+            dispatch(setEmail(e));
+          }}
+          value={adState.email}
+          isInvalid={
+            !adState.validation.email && adState.validation.validateStep3
+          }
         />
       </div>
       <div>
         <RadioGroup
           isRequired
           label="Potrebna vozačka dozvola?"
-          value={selected}
-          onValueChange={setSelected}
+          value={isDrivingLicenseRequired}
+          onValueChange={(e: string) => {
+            if (e === "da") {
+              setIsDrivingLicenseRequired(e);
+              dispatch(setDrivingLicenseValidation(false));
+            } else if (e === "ne") {
+              setIsDrivingLicenseRequired(e);
+              dispatch(setDrivingLicenseValidation(true));
+            }
+          }}
         >
           <Radio value="da">Da</Radio>
           <Radio value="ne">Ne</Radio>
         </RadioGroup>
       </div>
-      {selected === "da" ? (
+      {isDrivingLicenseRequired === "da" ? (
         <div>
-          <Select isRequired label="Odaberite kategoriju" className="w-[40%]">
+          <Select
+            isRequired
+            label="Odaberite kategoriju"
+            className="w-[40%]"
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+              dispatch(setDrivingLicense(e.target.value));
+            }}
+            value={adState.drivingLicense}
+            isInvalid={
+              !adState.validation.drivingLicense &&
+              adState.validation.validateStep3
+            }
+          >
             {drivingLicenseCat.map((category) => (
               <SelectItem key={category.value} value={category.value}>
                 {category.label}

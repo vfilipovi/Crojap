@@ -262,12 +262,13 @@ const HomePage: FC = () => {
           IT i Telekomunikacije
         </Link>
         <div className="flex w-full overflow-x-auto p-5">
-          {adsIt.map((ad) => {
+          {adsIt.map((ad, index) => {
             return (
               <HomePageJobCard
                 companyName={ad.companyName}
                 role={ad.role}
                 description={ad.description}
+                key={"it-" + index}
               />
             );
           })}
@@ -279,12 +280,13 @@ const HomePage: FC = () => {
           Ugostiteljstvo
         </Link>
         <div className="flex w-full overflow-x-auto p-5">
-          {adsHospitality.map((ad) => {
+          {adsHospitality.map((ad, index) => {
             return (
               <HomePageJobCard
                 companyName={ad.companyName}
                 role={ad.role}
                 description={ad.description}
+                key={"hosptitality-" + index}
               />
             );
           })}
@@ -296,12 +298,13 @@ const HomePage: FC = () => {
           Građevinarstvo
         </Link>
         <div className="flex w-full overflow-x-auto p-5">
-          {adsConstruction.map((ad) => {
+          {adsConstruction.map((ad, index) => {
             return (
               <HomePageJobCard
                 companyName={ad.companyName}
                 role={ad.role}
                 description={ad.description}
+                key={"construction-" + index}
               />
             );
           })}
@@ -313,12 +316,13 @@ const HomePage: FC = () => {
           Prodaja
         </Link>
         <div className="flex w-full overflow-x-auto p-5">
-          {adsSales.map((ad) => {
+          {adsSales.map((ad, index) => {
             return (
               <HomePageJobCard
                 companyName={ad.companyName}
                 role={ad.role}
                 description={ad.description}
+                key={"sales-" + index}
               />
             );
           })}

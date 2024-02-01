@@ -28,10 +28,10 @@ export const setApplyDeadlineReducer = (
 
 export const setDateOfAdPublishReducer = (
   state: AdType,
-  action: PayloadAction<{ dateOfAdPublish: Date | null }>
+  action: PayloadAction<string | null>
 ) => {
-  state.dateOfAdPublish = action.payload.dateOfAdPublish || null;
-  state.validation.dateOfAdPublish = !!action.payload.dateOfAdPublish;
+  state.dateOfAdPublish = action.payload || null;
+  state.validation.dateOfAdPublish = !!action.payload;
 };
 
 export const setShortDescriptionReducer = (
@@ -79,7 +79,11 @@ export const setYearsOfExperienceReducer = (
   action: PayloadAction<number>
 ) => {
   state.yearsOfExperience = action.payload || 0;
-  state.validation.yearsOfExperience = !!action.payload;
+  if (typeof action.payload === "number" && action.payload > -1) {
+    state.validation.yearsOfExperience = true;
+  } else {
+    state.validation.yearsOfExperience = false;
+  }
 };
 
 export const setLanguagesReducer = (

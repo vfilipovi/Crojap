@@ -30,7 +30,7 @@ export type AdType = {
   companyName: string;
   adName: string;
   applyDeadline: string | null;
-  dateOfAdPublish: Date | null;
+  dateOfAdPublish: string | null;
   shortDescription: string;
   longDescription: string;
   category: string;
@@ -78,7 +78,7 @@ const initialState: AdType = {
   companyName: "Company d.o.o.",
   adName: "Prodavač M/Ž",
   applyDeadline: null, // inace ide null, a na string ""
-  dateOfAdPublish: new Date(),
+  dateOfAdPublish: null,
   shortDescription: "kratki opis",
   longDescription: "dugi opis",
   category: "",

@@ -31,8 +31,6 @@ const SearchPage = () => {
         <Button>Pretraži</Button>
       </div>
     </>
-
-    //1
   );
 };
 

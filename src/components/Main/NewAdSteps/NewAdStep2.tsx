@@ -226,7 +226,12 @@ const NewAdStep2: FC<{ activeStep: number }> = ({ activeStep }) => {
           onValueChange={(e: string) => {
             dispatch(setYearsOfExperience(+e));
           }}
-          value={adState.yearsOfExperience?.toString()}
+          // value={adState.yearsOfExperience?.toString()}
+          value={
+            adState.yearsOfExperience
+              ? adState.yearsOfExperience.toString()
+              : "0"
+          }
           isInvalid={
             !adState.validation.yearsOfExperience &&
             adState.validation.validateStep2

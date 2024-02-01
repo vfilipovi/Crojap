@@ -117,7 +117,7 @@ const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
               isClearable={true}
               isRequired
               onClear={() => {
-                dispatch(setDateOfAdPublish({ dateOfAdPublish: null }));
+                dispatch(setDateOfAdPublish(null));
               }}
               isInvalid={
                 !adState.validation.dateOfAdPublish &&
@@ -125,9 +125,11 @@ const NewAdStep1: FC<{ activeStep: number }> = ({ activeStep }) => {
               }
             />
           }
-          selected={adState.dateOfAdPublish}
+          selected={
+            adState.dateOfAdPublish ? new Date(adState.dateOfAdPublish) : null
+          }
           onChange={(date: Date | null) =>
-            dispatch(setDateOfAdPublish({ dateOfAdPublish: date }))
+            dispatch(setDateOfAdPublish(date ? date.toString() : null))
           }
           ref={inputRef2}
           minDate={new Date()}

@@ -9,20 +9,16 @@ import userImage from "../../assets/user-icon.png";
 
 const items = [
   {
-    key: "new",
-    label: "New file",
+    label: "Prijava",
+    key: "login",
   },
   {
-    key: "copy",
-    label: "Copy link",
+    label: "Registracija",
+    key: "registration",
   },
   {
-    key: "edit",
-    label: "Edit file",
-  },
-  {
-    key: "delete",
-    label: "Delete file",
+    label: "Odjava",
+    key: "logout",
   },
 ];
 
@@ -36,8 +32,8 @@ const UserControls = () => {
         {(item) => (
           <DropdownItem
             key={item.key}
-            color={item.key === "delete" ? "danger" : "default"}
-            className={item.key === "delete" ? "text-danger" : ""}
+            color={item.key === "logout" ? "danger" : "default"}
+            className={item.key === "logout" ? "text-danger" : ""}
           >
             {item.label}
           </DropdownItem>

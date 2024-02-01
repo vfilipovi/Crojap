@@ -11,7 +11,7 @@ import {
   setYearsOfExperience,
 } from "../../../store/ad-slice";
 
-const counties = [
+export const counties = [
   {
     label: "Grad Zagreb",
     value: "zagreb",
@@ -115,7 +115,7 @@ const contractTypes = [
   },
 ];
 
-const categories = [
+export const categories = [
   {
     label: "IT",
     value: "it",

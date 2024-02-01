@@ -1,6 +1,6 @@
-import { Link } from "@nextui-org/react";
 import { FC } from "react";
 import UserControls from "./UserControls";
+import { Link } from "react-router-dom";
 
 const Header: FC = () => {
   return (
@@ -9,15 +9,15 @@ const Header: FC = () => {
         <div className="text-lg font-bold"> CroJAP</div>
         <ul className="flex space-x-4">
           <li className="flex items-center">
-            <Link href="/">
+            <Link to={"/"}>
               <div className="hover:text-gray-300 text-white">Početna</div>
             </Link>
           </li>
-          <li className="flex items-center">
+          {/* <li className="flex items-center">
             <Link href="/about">
               <div className="hover:text-gray-300 text-white">O nama</div>
             </Link>
-          </li>
+          </li> */}
           <li className="flex items-center">
             <UserControls />
           </li>

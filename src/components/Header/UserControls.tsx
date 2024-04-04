@@ -26,7 +26,11 @@ const UserControls = () => {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <User name="Korisnik" avatarProps={{ src: userImage }} />
+        <User
+          name="Korisnik"
+          avatarProps={{ src: userImage }}
+          style={{ cursor: "pointer" }}
+        />
       </DropdownTrigger>
       <DropdownMenu aria-label="Dynamic Actions" items={items}>
         {(item) => (
